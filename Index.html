@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eid Mubarak Ushna 🌙</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --rose: #f4a0b0;
+    --blush: #fce4ec;
+    --gold: #e8b86d;
+    --deep-rose: #c2185b;
+    --cream: #fff8f0;
+    --mauve: #d4879c;
+    --lilac: #e8d5f5;
+    --soft-purple: #c9a0dc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1a0a14 0%, #2d0a22 30%, #1a0a1a 60%, #0d0a1f 100%);
+    font-family: 'Lato', sans-serif;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+  }
+
+  /* ===== STARRY NIGHT BG ===== */
+  .stars-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .star {
+    position: absolute;
+    border-radius: 50%;
+    background: white;
+    animation: twinkle var(--dur) ease-in-out infinite var(--delay);
+  }
+  @keyframes twinkle {
+    0%,100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.4); }
+  }
+
+  /* ===== FLOATING PETALS ===== */
+  .petal {
+    position: fixed;
+    pointer-events: none;
+    z-index: 1;
+    font-size: var(--sz);
+    animation: floatDown var(--fd) linear infinite var(--fd-delay);
+    opacity: 0;
+  }
+  @keyframes floatDown {
+    0% { transform: translateY(-60px) rotate(0deg) translateX(0); opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(110vh) rotate(720deg) translateX(var(--sway)); opacity: 0; }
+  }
+
+  /* ===== AURORA BG GLOW ===== */
+  .aurora {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .aurora-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    animation: auroraMove var(--am) ease-in-out infinite alternate var(--am-d);
+  }
+  @keyframes auroraMove {
+    0% { transform: translate(0,0) scale(1); }
+    100% { transform: translate(var(--mx), var(--my)) scale(1.3); }
+  }
+
+  /* ===== CLICK HINT ===== */
+  #hint {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    gap: 20px;
+    animation: hintPulse 2s ease-in-out infinite;
+    transition: opacity 0.5s;
+  }
+  #hint.hidden { opacity: 0; pointer-events: none; }
+  .hint-moon {
+    font-size: clamp(60px, 15vw, 120px);
+    filter: drop-shadow(0 0 30px var(--gold));
+    animation: moonFloat 3s ease-in-out infinite;
+  }
+  @keyframes moonFloat {
+    0%,100% { transform: translateY(0) rotate(-10deg); }
+    50% { transform: translateY(-20px) rotate(10deg); }
+  }
+  .hint-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(22px, 5vw, 42px);
+    color: var(--gold);
+    text-shadow: 0 0 20px var(--gold), 0 0 40px rgba(232,184,109,0.4);
+    letter-spacing: 2px;
+    text-align: center;
+    padding: 0 20px;
+  }
+  .hint-sub {
+    font-family: 'Lato', sans-serif;
+    font-size: clamp(12px, 2.5vw, 16px);
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    animation: hintPulse 1.5s ease-in-out infinite;
+  }
+  @keyframes hintPulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .hint-tap-ring {
+    width: 60px; height: 60px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    animation: ringPulse 2s ease-out infinite;
+    position: relative;
+  }
+  .hint-tap-ring::after {
+    content: '✦';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-size: 22px;
+  }
+  @keyframes ringPulse {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
+  }
+
+  /* ===== CARD WRAPPER ===== */
+  #card-wrapper {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+    opacity: 0;
+    pointer-events: none;
+    padding: 20px;
+  }
+  #card-wrapper.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  /* ===== BURST EFFECT ===== */
+  .burst-ring {
+    position: fixed;
+    border-radius: 50%;
+    border: 3px solid var(--gold);
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 30;
+    animation: none;
+  }
+  .burst-ring.active {
+    animation: burstRing 0.8s ease-out forwards;
+  }
+  @keyframes burstRing {
+    0% { transform: translate(-50%,-50%) scale(0); opacity: 1; }
+    100% { transform: translate(-50%,-50%) scale(6); opacity: 0; }
+  }
+
+  /* ===== CARD ===== */
+  .card {
+    background: linear-gradient(145deg, #fff8f6 0%, #fef0f5 30%, #fdf5ff 70%, #fff8f0 100%);
+    border-radius: 28px;
+    max-width: 680px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow:
+      0 0 0 1px rgba(232,184,109,0.3),
+      0 0 40px rgba(244,160,176,0.3),
+      0 0 80px rgba(201,160,220,0.2),
+      0 30px 80px rgba(0,0,0,0.5);
+    transform: scale(0) rotate(-8deg);
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    scrollbar-width: thin;
+    scrollbar-color: var(--rose) transparent;
+  }
+  .card.open {
+    transform: scale(1) rotate(0deg);
+  }
+  .card::-webkit-scrollbar { width: 4px; }
+  .card::-webkit-scrollbar-track { background: transparent; }
+  .card::-webkit-scrollbar-thumb { background: var(--rose); border-radius: 2px; }
+
+  /* ===== CARD TOP BANNER ===== */
+  .card-banner {
+    background: linear-gradient(135deg, #8b1a4a 0%, #c2185b 35%, #e91e8c 65%, #ad1457 100%);
+    padding: 36px 28px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-radius: 28px 28px 0 0;
+  }
+  .card-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M30 30m-5 0a5 5 0 1 0 10 0a5 5 0 1 0-10 0M0 0h60v60H0z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .banner-sparkles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .banner-sparkle {
+    position: absolute;
+    color: rgba(255,255,255,0.6);
+    animation: sparkleFloat var(--sf) ease-in-out infinite var(--sfd);
+    font-size: var(--sfs);
+  }
+  @keyframes sparkleFloat {
+    0%,100% { transform: translateY(0) scale(1); opacity: 0.4; }
+    50% { transform: translateY(-12px) scale(1.3); opacity: 1; }
+  }
+
+  .banner-moon {
+    font-size: 52px;
+    display: block;
+    margin-bottom: 8px;
+    filter: drop-shadow(0 4px 12px rgba(255,215,0,0.6));
+    animation: bannerMoon 4s ease-in-out infinite;
+  }
+  @keyframes bannerMoon {
+    0%,100% { transform: rotate(-5deg) scale(1); }
+    50% { transform: rotate(5deg) scale(1.1); }
+  }
+  .banner-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(30px, 7vw, 52px);
+    color: #fff;
+    text-shadow: 0 2px 20px rgba(255,215,0,0.5), 0 0 40px rgba(255,255,255,0.3);
+    line-height: 1.1;
+    animation: titleShimmer 3s ease-in-out infinite;
+  }
+  @keyframes titleShimmer {
+    0%,100% { text-shadow: 0 2px 20px rgba(255,215,0,0.5), 0 0 40px rgba(255,255,255,0.3); }
+    50% { text-shadow: 0 2px 30px rgba(255,215,0,0.9), 0 0 60px rgba(255,255,255,0.5); }
+  }
+  .banner-subtitle {
+    font-family: 'Lato', sans-serif;
+    font-size: clamp(11px, 2vw, 14px);
+    color: rgba(255,255,255,0.8);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  .banner-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 16px;
+    color: var(--gold);
+    font-size: 18px;
+  }
+  .banner-divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(232,184,109,0.8), transparent);
+    max-width: 80px;
+  }
+
+  /* ===== DECORATIVE ARCH ===== */
+  .card-arch {
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(135deg, #8b1a4a, #c2185b);
+    position: relative;
+    overflow: hidden;
+  }
+  .card-arch::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: -5%;
+    width: 110%;
+    height: 60px;
+    background: linear-gradient(145deg, #fff8f6 0%, #fef0f5 100%);
+    border-radius: 50% 50% 0 0;
+  }
+
+  /* ===== CARD BODY ===== */
+  .card-body {
+    padding: 28px 32px 36px;
+    position: relative;
+  }
+
+  /* ===== DECORATIVE CORNERS ===== */
+  .corner-dec {
+    position: absolute;
+    font-size: 28px;
+    opacity: 0.25;
+    animation: cornerSpin 8s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes cornerSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  .corner-tl { top: 12px; left: 14px; }
+  .corner-tr { top: 12px; right: 14px; animation-direction: reverse; }
+  .corner-bl { bottom: 12px; left: 14px; animation-direction: reverse; }
+  .corner-br { bottom: 12px; right: 14px; }
+
+  /* ===== RECIPIENT LINE ===== */
+  .recipient-line {
+    text-align: center;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.4s forwards;
+  }
+  .recipient-to {
+    font-family: 'Lato', sans-serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--mauve);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .recipient-name {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(26px, 6vw, 38px);
+    background: linear-gradient(135deg, #c2185b, #e91e8c, #ad1457);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 2px 8px rgba(194,24,91,0.2));
+  }
+
+  /* ===== LANTERNS ROW ===== */
+  .lanterns-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 20px 0;
+    opacity: 0;
+    animation: fadeUp 0.6s 0.5s forwards;
+  }
+  .lantern {
+    font-size: 28px;
+    animation: lanternSwing var(--ls) ease-in-out infinite var(--lsd);
+    transform-origin: top center;
+    filter: drop-shadow(0 4px 8px rgba(232,184,109,0.5));
+  }
+  @keyframes lanternSwing {
+    0%,100% { transform: rotate(-12deg); }
+    50% { transform: rotate(12deg); }
+  }
+
+  /* ===== SEPARATOR ===== */
+  .sep {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+    color: var(--rose);
+    opacity: 0;
+    animation: fadeUp 0.6s 0.55s forwards;
+  }
+  .sep-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--rose), transparent);
+  }
+  .sep-icon { font-size: 18px; animation: sepPulse 2s ease-in-out infinite; }
+  @keyframes sepPulse {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+  }
+
+  /* ===== MESSAGE PARAGRAPHS ===== */
+  .msg-para {
+    font-family: 'Lato', sans-serif;
+    font-size: clamp(13px, 2.5vw, 15px);
+    line-height: 1.9;
+    color: #4a2030;
+    margin-bottom: 18px;
+    opacity: 0;
+    animation: fadeUp 0.6s forwards;
+    text-align: justify;
+    position: relative;
+    padding: 14px 18px;
+    background: rgba(252,228,236,0.4);
+    border-left: 3px solid var(--rose);
+    border-radius: 0 12px 12px 0;
+  }
+  .msg-para:nth-child(1) { animation-delay: 0.6s; }
+  .msg-para:nth-child(2) { animation-delay: 0.75s; }
+  .msg-para:nth-child(3) { animation-delay: 0.9s; }
+  .msg-para:nth-child(4) { animation-delay: 1.05s; }
+  .msg-para:nth-child(5) { animation-delay: 1.2s; }
+  .msg-para:nth-child(6) { animation-delay: 1.35s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== PRAYER BOX ===== */
+  .prayer-box {
+    background: linear-gradient(135deg, rgba(194,24,91,0.08), rgba(201,160,220,0.12));
+    border: 1px solid rgba(244,160,176,0.5);
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin: 22px 0;
+    text-align: center;
+    opacity: 0;
+    animation: fadeUp 0.6s 1.4s forwards;
+    position: relative;
+    overflow: hidden;
+  }
+  .prayer-box::before {
+    content: '🤲';
+    font-size: 36px;
+    display: block;
+    margin-bottom: 10px;
+    animation: prayFloat 3s ease-in-out infinite;
+  }
+  @keyframes prayFloat {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .prayer-box p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(13px, 2.5vw, 15px);
+    color: #8b1a4a;
+    line-height: 1.8;
+  }
+
+  /* ===== SIGN OFF ===== */
+  .sign-off {
+    text-align: center;
+    margin-top: 28px;
+    opacity: 0;
+    animation: fadeUp 0.6s 1.55s forwards;
+  }
+  .sign-off-blessing {
+    font-family: 'Dancing Script', cursive;
+    font-size: clamp(20px, 5vw, 30px);
+    color: var(--deep-rose);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .sign-off-name {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(16px, 3vw, 20px);
+    color: var(--mauve);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .sign-off-from {
+    font-family: 'Lato', sans-serif;
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--soft-purple);
+  }
+
+  /* ===== EMOJI TRAIL ===== */
+  .emoji-trail {
+    position: fixed;
+    pointer-events: none;
+    z-index: 999;
+    font-size: 20px;
+    animation: trailFade 1s ease-out forwards;
+    transform: translate(-50%, -50%);
+  }
+  @keyframes trailFade {
+    0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, calc(-50% - 80px)) scale(0.3); }
+  }
+
+  /* ===== CARD FOOTER ===== */
+  .card-footer {
+    background: linear-gradient(135deg, #8b1a4a, #c2185b);
+    padding: 16px;
+    text-align: center;
+    border-radius: 0 0 28px 28px;
+  }
+  .footer-emojis {
+    font-size: 22px;
+    letter-spacing: 6px;
+    animation: footerShimmer 2s ease-in-out infinite;
+  }
+  @keyframes footerShimmer {
+    0%,100% { filter: brightness(1); }
+    50% { filter: brightness(1.4) drop-shadow(0 0 8px rgba(255,215,0,0.6)); }
+  }
+  .footer-text {
+    font-family: 'Lato', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.7);
+    margin-top: 6px;
+  }
+
+  /* ===== CONFETTI ===== */
+  .confetti-piece {
+    position: fixed;
+    pointer-events: none;
+    z-index: 25;
+    border-radius: 2px;
+    animation: confettiFall var(--cf) ease-in var(--cfd) forwards;
+    opacity: 0;
+  }
+  @keyframes confettiFall {
+    0% { transform: translateY(-20px) rotate(0deg) translateX(0); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(var(--cr)) translateX(var(--cx)); opacity: 0; }
+  }
+
+  /* ===== MOBILE ===== */
+  @media (max-width: 480px) {
+    .card-body { padding: 20px 18px 28px; }
+    .card-banner { padding: 28px 18px 20px; }
+    .msg-para { padding: 10px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Stars -->
+<div class="stars-container" id="stars"></div>
+
+<!-- Aurora -->
+<div class="aurora" id="aurora"></div>
+
+<!-- Petals -->
+<div id="petals"></div>
+
+<!-- Burst ring -->
+<div class="burst-ring" id="burst"></div>
+
+<!-- HINT SCREEN -->
+<div id="hint">
+  <div class="hint-moon">🌙</div>
+  <div class="hint-text">A Special Eid Surprise<br>Awaits You, Ushna ✨</div>
+  <div class="hint-tap-ring"></div>
+  <div class="hint-sub">Tap anywhere to open</div>
+</div>
+
+<!-- CARD -->
+<div id="card-wrapper">
+  <div class="card" id="card">
+
+    <!-- Banner -->
+    <div class="card-banner">
+      <div class="banner-sparkles" id="bannerSparkles"></div>
+      <span class="banner-moon">🌙</span>
+      <div class="banner-title">Eid Mubarak</div>
+      <div class="banner-subtitle">✦ &nbsp; عید مبارک &nbsp; ✦</div>
+      <div class="banner-divider">
+        <div class="banner-divider-line"></div>
+        <span>🌸 🌺 🌸</span>
+        <div class="banner-divider-line"></div>
+      </div>
+    </div>
+
+    <!-- Arch transition -->
+    <div class="card-arch"></div>
+
+    <!-- Body -->
+    <div class="card-body">
+      <div class="corner-dec corner-tl">✿</div>
+      <div class="corner-dec corner-tr">❈</div>
+      <div class="corner-dec corner-bl">❈</div>
+      <div class="corner-dec corner-br">✿</div>
+
+      <!-- Recipient -->
+      <div class="recipient-line">
+        <span class="recipient-to">To My Dearest Bestie</span>
+        <span class="recipient-name">Ushna 🌸</span>
+      </div>
+
+      <!-- Lanterns -->
+      <div class="lanterns-row">
+        <span class="lantern" style="--ls:2.2s;--lsd:0s">🌸</span>
+        <span class="lantern" style="--ls:2.8s;--lsd:0.3s">🏮</span>
+        <span class="lantern" style="--ls:2s;--lsd:0.6s">🌙</span>
+        <span class="lantern" style="--ls:2.5s;--lsd:0.2s">🏮</span>
+        <span class="lantern" style="--ls:2.3s;--lsd:0.5s">🌸</span>
+      </div>
+
+      <div class="sep">
+        <div class="sep-line"></div>
+        <span class="sep-icon">🌺</span>
+        <div class="sep-line"></div>
+      </div>
+
+      <!-- Message -->
+      <div id="msg-container">
+        <p class="msg-para">Eid Mubarak, My Dearest Bestie Ushna 🌙🤍<br>On this beautiful and blessed occasion of Eid-ul-Fitr, I want to take a moment to thank Allah for blessing my life with someone as precious as you.</p>
+        <p class="msg-para">Ushna, your presence in my life means more than words can ever express. You are not just my best friend you are a beautiful part of my journey, someone who brings comfort, happiness, and light into my days.</p>
+        <p class="msg-para">Your kindness, your heart, and the way you care for others make you truly special. I feel incredibly grateful to have a bestie like you who understands me, supports me, and stands by me through every moment. Life feels easier and brighter because you are in it. 🌸</p>
+        <p class="msg-para">On this blessed Eid, I pray that Allah fills your life with endless happiness, peace, and success. May your heart always remain as pure and beautiful as it is, and may all your dreams come true. May Allah bless you with health, prosperity, and countless reasons to smile not just today, but every single day. 🤲</p>
+        <p class="msg-para">Thank you for being such a precious part of my life. Your friendship is a gift that I will always cherish. I pray that our bond only grows stronger with time and that we continue to create beautiful memories together. 💕</p>
+        <p class="msg-para">May this Eid bring you joy, love, and countless blessings. Eid Mubarak, my precious bestie Ushna. You truly mean the world to me. 🤍</p>
+      </div>
+
+      <!-- Prayer box -->
+      <div class="prayer-box">
+        <p>"May Allah accept our fasts, our prayers, and our good deeds. May this Eid be the most beautiful one yet for you, Ushna full of love, laughter, and all things lovely." 🌙✨</p>
+      </div>
+
+      <div class="sep">
+        <div class="sep-line"></div>
+        <span class="sep-icon">💌</span>
+        <div class="sep-line"></div>
+      </div>
+
+      <!-- Sign off -->
+      <div class="sign-off">
+        <span class="sign-off-blessing">With lots of prayers and love 🤍</span>
+        <span class="sign-off-name">Your Weirdo ✦ </span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="card-footer">
+      <div class="footer-emojis">🌙 🌸 💕 🌺</div>
+      <div class="footer-text">Eid ul Fitr 2026</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // ===== STARS =====
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 180; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const sz = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `
+      width:${sz}px; height:${sz}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      --dur:${2+Math.random()*4}s;
+      --delay:${Math.random()*4}s;
+    `;
+    starsEl.appendChild(s);
+  }
+
+  // ===== AURORA =====
+  const auroraEl = document.getElementById('aurora');
+  const auroraColors = ['#c2185b','#ad1457','#e91e8c','#9c27b0','#673ab7','#f48fb1'];
+  for (let i = 0; i < 5; i++) {
+    const b = document.createElement('div');
+    b.className = 'aurora-blob';
+    const size = 300 + Math.random() * 400;
+    b.style.cssText = `
+      width:${size}px; height:${size}px;
+      background:${auroraColors[i % auroraColors.length]};
+      left:${Math.random()*100}%; top:${Math.random()*100}%;
+      --am:${8+Math.random()*8}s;
+      --am-d:${Math.random()*4}s;
+      --mx:${(Math.random()-0.5)*200}px;
+      --my:${(Math.random()-0.5)*200}px;
+    `;
+    auroraEl.appendChild(b);
+  }
+
+  // ===== PETALS =====
+  const petalsEl = document.getElementById('petals');
+  const petalEmojis = ['🌸','🌺','🌼','🌹','💮','🌷'];
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const sway = (Math.random()-0.5)*200;
+    p.style.cssText = `
+      left:${Math.random()*100}%;
+      --sz:${14+Math.random()*14}px;
+      --fd:${6+Math.random()*8}s;
+      --fd-delay:${-Math.random()*10}s;
+      --sway:${sway}px;
+    `;
+    p.textContent = petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
+    petalsEl.appendChild(p);
+  }
+
+  // ===== BANNER SPARKLES =====
+  const bannerSparkles = document.getElementById('bannerSparkles');
+  for (let i = 0; i < 18; i++) {
+    const sp = document.createElement('div');
+    sp.className = 'banner-sparkle';
+    sp.textContent = ['✦','✧','⋆','·','*'][Math.floor(Math.random()*5)];
+    sp.style.cssText = `
+      left:${Math.random()*100}%; top:${Math.random()*100}%;
+      --sf:${1.5+Math.random()*2.5}s;
+      --sfd:${Math.random()*2}s;
+      --sfs:${8+Math.random()*10}px;
+    `;
+    bannerSparkles.appendChild(sp);
+  }
+
+  // ===== OPEN CARD =====
+  let opened = false;
+  const hint = document.getElementById('hint');
+  const cardWrapper = document.getElementById('card-wrapper');
+  const card = document.getElementById('card');
+  const burst = document.getElementById('burst');
+
+  const emojiPool = ['🌸','✨','💕','🌺','🌙','💫','🌷','🎀','🌹'];
+
+  document.body.addEventListener('click', (e) => {
+    if (!opened) {
+      opened = true;
+      hint.classList.add('hidden');
+
+      // Burst ring from click pos
+      burst.style.left = e.clientX + 'px';
+      burst.style.top = e.clientY + 'px';
+      burst.style.width = '60px';
+      burst.style.height = '60px';
+      burst.classList.add('active');
+      setTimeout(() => burst.classList.remove('active'), 800);
+
+      // Show card
+      cardWrapper.classList.add('visible');
+      setTimeout(() => card.classList.add('open'), 80);
+
+      // Confetti burst
+      launchConfetti(e.clientX, e.clientY);
+    } else {
+      // Emoji trail on subsequent clicks
+      spawnEmoji(e.clientX, e.clientY);
+    }
+  });
+
+  function launchConfetti(cx, cy) {
+    const colors = ['#f4a0b0','#e8b86d','#c9a0dc','#f06292','#fff59d','#a5d6a7','#ffffff'];
+    for (let i = 0; i < 60; i++) {
+      const c = document.createElement('div');
+      c.className = 'confetti-piece';
+      const size = 6 + Math.random() * 8;
+      const rot = `${Math.random()*720 - 360}deg`;
+      const tx = `${(Math.random()-0.5)*500}px`;
+      c.style.cssText = `
+        width:${size}px; height:${size * (Math.random() > 0.5 ? 1 : 2.5)}px;
+        background:${colors[Math.floor(Math.random()*colors.length)]};
+        left:${cx + (Math.random()-0.5)*60}px;
+        top:${cy}px;
+        --cf:${1.5+Math.random()*2}s;
+        --cfd:${Math.random()*0.5}s;
+        --cr:${rot};
+        --cx:${tx};
+        border-radius:${Math.random()>0.5 ? '50%' : '2px'};
+      `;
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 3500);
+    }
+  }
+
+  function spawnEmoji(x, y) {
+    const e = document.createElement('div');
+    e.className = 'emoji-trail';
+    e.textContent = emojiPool[Math.floor(Math.random()*emojiPool.length)];
+    e.style.left = x + 'px';
+    e.style.top = y + 'px';
+    document.body.appendChild(e);
+    setTimeout(() => e.remove(), 1000);
+  }
+</script>
+</body>
+</html>
