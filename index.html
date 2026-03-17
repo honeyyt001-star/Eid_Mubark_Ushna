@@ -4,575 +4,524 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Eid Mubarak Ushna 🌙</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@600;700&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Dancing+Script:wght@600;700&family=Lato:wght@300;400;700&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --rose: #f4a0b0;
-    --blush: #fce4ec;
-    --gold: #e8b86d;
-    --deep-rose: #c2185b;
-    --cream: #fff8f0;
-    --mauve: #d4879c;
-    --lilac: #e8d5f5;
-    --soft-purple: #c9a0dc;
-  }
+:root {
+  --rose:#f4a0b0; --blush:#fce4ec; --gold:#e8b86d; --gold2:#ffd700;
+  --deep-rose:#c2185b; --cream:#fff8f0; --mauve:#d4879c; --lilac:#e8d5f5;
+  --soft-purple:#c9a0dc; --dark1:#1a0a14; --dark2:#2d0a22; --dark3:#1a0a1a;
+}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
+*{margin:0;padding:0;box-sizing:border-box}
 
-  body {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #1a0a14 0%, #2d0a22 30%, #1a0a1a 60%, #0d0a1f 100%);
-    font-family: 'Lato', sans-serif;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-  }
+body {
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--dark1) 0%,var(--dark2) 30%,var(--dark3) 60%,#0d0a1f 100%);
+  font-family:'Lato',sans-serif;
+  overflow:hidden;position:relative;cursor:pointer;
+}
 
-  /* ===== STARRY NIGHT BG ===== */
-  .stars-container {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-  }
-  .star {
-    position: absolute;
-    border-radius: 50%;
-    background: white;
-    animation: twinkle var(--dur) ease-in-out infinite var(--delay);
-  }
-  @keyframes twinkle {
-    0%,100% { opacity: 0.2; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.4); }
-  }
+/* ═══ STARS ═══ */
+.stars-container{position:fixed;inset:0;pointer-events:none;z-index:0}
+.star{
+  position:absolute;border-radius:50%;background:white;
+  animation:twinkle var(--dur) ease-in-out infinite var(--delay);
+}
+@keyframes twinkle{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:1;transform:scale(1.5)}}
 
-  /* ===== FLOATING PETALS ===== */
-  .petal {
-    position: fixed;
-    pointer-events: none;
-    z-index: 1;
-    font-size: var(--sz);
-    animation: floatDown var(--fd) linear infinite var(--fd-delay);
-    opacity: 0;
-  }
-  @keyframes floatDown {
-    0% { transform: translateY(-60px) rotate(0deg) translateX(0); opacity: 0; }
-    10% { opacity: 0.8; }
-    90% { opacity: 0.6; }
-    100% { transform: translateY(110vh) rotate(720deg) translateX(var(--sway)); opacity: 0; }
-  }
+/* shooting stars */
+.shoot{
+  position:fixed;height:1.5px;
+  background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.9),rgba(232,184,109,.6));
+  border-radius:2px;opacity:0;pointer-events:none;z-index:1;
+  animation:shoot var(--sd) linear infinite var(--sdel);
+}
+@keyframes shoot{
+  0%{opacity:0;transform:translateX(0) translateY(0) rotate(var(--ang))}
+  10%{opacity:1}80%{opacity:.6}
+  100%{opacity:0;transform:translateX(var(--sx)) translateY(var(--sy)) rotate(var(--ang))}
+}
 
-  /* ===== AURORA BG GLOW ===== */
-  .aurora {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-  }
-  .aurora-blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.15;
-    animation: auroraMove var(--am) ease-in-out infinite alternate var(--am-d);
-  }
-  @keyframes auroraMove {
-    0% { transform: translate(0,0) scale(1); }
-    100% { transform: translate(var(--mx), var(--my)) scale(1.3); }
-  }
+/* ═══ AURORA ═══ */
+.aurora{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.aurora-blob{
+  position:absolute;border-radius:50%;filter:blur(90px);opacity:.12;
+  animation:auroraMove var(--am) ease-in-out infinite alternate var(--am-d);
+}
+@keyframes auroraMove{0%{transform:translate(0,0) scale(1)}100%{transform:translate(var(--mx),var(--my)) scale(1.4)}}
 
-  /* ===== CLICK HINT ===== */
-  #hint {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-    gap: 20px;
-    animation: hintPulse 2s ease-in-out infinite;
-    transition: opacity 0.5s;
-  }
-  #hint.hidden { opacity: 0; pointer-events: none; }
-  .hint-moon {
-    font-size: clamp(60px, 15vw, 120px);
-    filter: drop-shadow(0 0 30px var(--gold));
-    animation: moonFloat 3s ease-in-out infinite;
-  }
-  @keyframes moonFloat {
-    0%,100% { transform: translateY(0) rotate(-10deg); }
-    50% { transform: translateY(-20px) rotate(10deg); }
-  }
-  .hint-text {
-    font-family: 'Dancing Script', cursive;
-    font-size: clamp(22px, 5vw, 42px);
-    color: var(--gold);
-    text-shadow: 0 0 20px var(--gold), 0 0 40px rgba(232,184,109,0.4);
-    letter-spacing: 2px;
-    text-align: center;
-    padding: 0 20px;
-  }
-  .hint-sub {
-    font-family: 'Lato', sans-serif;
-    font-size: clamp(12px, 2.5vw, 16px);
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    animation: hintPulse 1.5s ease-in-out infinite;
-  }
-  @keyframes hintPulse {
-    0%,100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-  .hint-tap-ring {
-    width: 60px; height: 60px;
-    border: 2px solid var(--gold);
-    border-radius: 50%;
-    animation: ringPulse 2s ease-out infinite;
-    position: relative;
-  }
-  .hint-tap-ring::after {
-    content: '✦';
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--gold);
-    font-size: 22px;
-  }
-  @keyframes ringPulse {
-    0% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(2); opacity: 0; }
-  }
+/* ═══ PETALS ═══ */
+.petal{
+  position:fixed;pointer-events:none;z-index:1;
+  font-size:var(--sz);
+  animation:floatDown var(--fd) linear infinite var(--fd-delay);
+  opacity:0;
+}
+@keyframes floatDown{
+  0%{transform:translateY(-60px) rotate(0deg) translateX(0);opacity:0}
+  10%{opacity:.8}90%{opacity:.5}
+  100%{transform:translateY(110vh) rotate(720deg) translateX(var(--sway));opacity:0}
+}
 
-  /* ===== CARD WRAPPER ===== */
-  #card-wrapper {
-    position: fixed;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 20;
-    opacity: 0;
-    pointer-events: none;
-    padding: 20px;
-  }
-  #card-wrapper.visible {
-    opacity: 1;
-    pointer-events: all;
-  }
+/* ═══ FLOATING LANTERNS (bg) ═══ */
+.bg-lantern{
+  position:fixed;font-size:var(--lsz);pointer-events:none;z-index:1;opacity:0;
+  animation:bgLantern var(--ldr) ease-in-out infinite var(--ldel);
+  filter:drop-shadow(0 0 12px rgba(232,184,109,.6));
+}
+@keyframes bgLantern{
+  0%{opacity:0;transform:translateY(0) rotate(-8deg)}
+  20%{opacity:.55}
+  70%{opacity:.4}
+  100%{opacity:0;transform:translateY(-120px) rotate(8deg)}
+}
 
-  /* ===== BURST EFFECT ===== */
-  .burst-ring {
-    position: fixed;
-    border-radius: 50%;
-    border: 3px solid var(--gold);
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 30;
-    animation: none;
-  }
-  .burst-ring.active {
-    animation: burstRing 0.8s ease-out forwards;
-  }
-  @keyframes burstRing {
-    0% { transform: translate(-50%,-50%) scale(0); opacity: 1; }
-    100% { transform: translate(-50%,-50%) scale(6); opacity: 0; }
-  }
+/* ═══ HINT SCREEN ═══ */
+#hint{
+  position:fixed;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;z-index:10;gap:18px;
+  transition:opacity .6s;
+}
+#hint.hidden{opacity:0;pointer-events:none}
+.hint-moon{
+  font-size:clamp(70px,16vw,130px);
+  filter:drop-shadow(0 0 40px var(--gold)) drop-shadow(0 0 80px rgba(232,184,109,.3));
+  animation:moonFloat 3.5s ease-in-out infinite;
+}
+@keyframes moonFloat{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-22px) rotate(8deg)}}
+.hint-text{
+  font-family:'Dancing Script',cursive;font-size:clamp(22px,5vw,44px);
+  color:var(--gold);
+  text-shadow:0 0 20px var(--gold),0 0 50px rgba(232,184,109,.4),0 0 100px rgba(232,184,109,.2);
+  letter-spacing:2px;text-align:center;padding:0 20px;
+  animation:textGlow 2.5s ease-in-out infinite;
+}
+@keyframes textGlow{
+  0%,100%{text-shadow:0 0 20px var(--gold),0 0 50px rgba(232,184,109,.4)}
+  50%{text-shadow:0 0 30px var(--gold2),0 0 70px rgba(255,215,0,.6),0 0 120px rgba(255,215,0,.3)}
+}
+.hint-arabic{
+  font-family:'Amiri',serif;font-size:clamp(18px,4vw,28px);
+  color:rgba(232,184,109,.75);letter-spacing:.08em;direction:rtl;
+}
+.hint-sub{
+  font-family:'Lato',sans-serif;font-size:clamp(11px,2.5vw,15px);
+  color:rgba(255,255,255,.5);letter-spacing:4px;text-transform:uppercase;
+  animation:hintPulse 1.8s ease-in-out infinite;
+}
+@keyframes hintPulse{0%,100%{opacity:.3}50%{opacity:1}}
+.hint-ring{
+  width:68px;height:68px;border:2px solid var(--gold);border-radius:50%;
+  animation:ringPulse 2s ease-out infinite;position:relative;
+  box-shadow:0 0 20px rgba(232,184,109,.3);
+}
+.hint-ring::after{
+  content:'✦';position:absolute;inset:0;display:flex;
+  align-items:center;justify-content:center;
+  color:var(--gold);font-size:24px;
+  animation:ringIconSpin 4s linear infinite;
+}
+@keyframes ringIconSpin{to{transform:rotate(360deg)}}
+@keyframes ringPulse{0%{transform:scale(1);opacity:1}100%{transform:scale(2.2);opacity:0}}
 
-  /* ===== CARD ===== */
-  .card {
-    background: linear-gradient(145deg, #fff8f6 0%, #fef0f5 30%, #fdf5ff 70%, #fff8f0 100%);
-    border-radius: 28px;
-    max-width: 680px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
-    box-shadow:
-      0 0 0 1px rgba(232,184,109,0.3),
-      0 0 40px rgba(244,160,176,0.3),
-      0 0 80px rgba(201,160,220,0.2),
-      0 30px 80px rgba(0,0,0,0.5);
-    transform: scale(0) rotate(-8deg);
-    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    scrollbar-width: thin;
-    scrollbar-color: var(--rose) transparent;
-  }
-  .card.open {
-    transform: scale(1) rotate(0deg);
-  }
-  .card::-webkit-scrollbar { width: 4px; }
-  .card::-webkit-scrollbar-track { background: transparent; }
-  .card::-webkit-scrollbar-thumb { background: var(--rose); border-radius: 2px; }
+/* ═══ CARD WRAPPER ═══ */
+#card-wrapper{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  z-index:20;opacity:0;pointer-events:none;padding:16px;
+}
+#card-wrapper.visible{opacity:1;pointer-events:all}
 
-  /* ===== CARD TOP BANNER ===== */
-  .card-banner {
-    background: linear-gradient(135deg, #8b1a4a 0%, #c2185b 35%, #e91e8c 65%, #ad1457 100%);
-    padding: 36px 28px 28px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    border-radius: 28px 28px 0 0;
-  }
-  .card-banner::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M30 30m-5 0a5 5 0 1 0 10 0a5 5 0 1 0-10 0M0 0h60v60H0z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-  }
-  .banner-sparkles {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  .banner-sparkle {
-    position: absolute;
-    color: rgba(255,255,255,0.6);
-    animation: sparkleFloat var(--sf) ease-in-out infinite var(--sfd);
-    font-size: var(--sfs);
-  }
-  @keyframes sparkleFloat {
-    0%,100% { transform: translateY(0) scale(1); opacity: 0.4; }
-    50% { transform: translateY(-12px) scale(1.3); opacity: 1; }
-  }
+/* ═══ BURST ═══ */
+.burst-ring{
+  position:fixed;border-radius:50%;border:3px solid var(--gold);
+  transform:translate(-50%,-50%) scale(0);opacity:0;
+  pointer-events:none;z-index:30;
+}
+.burst-ring.active{animation:burstRing .9s ease-out forwards}
+@keyframes burstRing{0%{transform:translate(-50%,-50%) scale(0);opacity:1}100%{transform:translate(-50%,-50%) scale(7);opacity:0}}
 
-  .banner-moon {
-    font-size: 52px;
-    display: block;
-    margin-bottom: 8px;
-    filter: drop-shadow(0 4px 12px rgba(255,215,0,0.6));
-    animation: bannerMoon 4s ease-in-out infinite;
-  }
-  @keyframes bannerMoon {
-    0%,100% { transform: rotate(-5deg) scale(1); }
-    50% { transform: rotate(5deg) scale(1.1); }
-  }
-  .banner-title {
-    font-family: 'Dancing Script', cursive;
-    font-size: clamp(30px, 7vw, 52px);
-    color: #fff;
-    text-shadow: 0 2px 20px rgba(255,215,0,0.5), 0 0 40px rgba(255,255,255,0.3);
-    line-height: 1.1;
-    animation: titleShimmer 3s ease-in-out infinite;
-  }
-  @keyframes titleShimmer {
-    0%,100% { text-shadow: 0 2px 20px rgba(255,215,0,0.5), 0 0 40px rgba(255,255,255,0.3); }
-    50% { text-shadow: 0 2px 30px rgba(255,215,0,0.9), 0 0 60px rgba(255,255,255,0.5); }
-  }
-  .banner-subtitle {
-    font-family: 'Lato', sans-serif;
-    font-size: clamp(11px, 2vw, 14px);
-    color: rgba(255,255,255,0.8);
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    margin-top: 8px;
-  }
-  .banner-divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 16px;
-    color: var(--gold);
-    font-size: 18px;
-  }
-  .banner-divider-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(232,184,109,0.8), transparent);
-    max-width: 80px;
-  }
+/* ═══ CARD ═══ */
+.card{
+  background:linear-gradient(145deg,#fff8f6 0%,#fef0f5 30%,#fdf5ff 70%,#fff8f0 100%);
+  border-radius:28px;
+  max-width:700px;width:100%;max-height:92vh;
+  overflow-y:auto;position:relative;
+  box-shadow:
+    0 0 0 1px rgba(232,184,109,.35),
+    0 0 50px rgba(244,160,176,.35),
+    0 0 100px rgba(201,160,220,.2),
+    0 40px 100px rgba(0,0,0,.6);
+  transform:scale(0) rotate(-10deg);
+  transition:transform .85s cubic-bezier(.175,.885,.32,1.275);
+  scrollbar-width:thin;scrollbar-color:var(--rose) transparent;
+}
+.card.open{transform:scale(1) rotate(0deg)}
+.card::-webkit-scrollbar{width:4px}
+.card::-webkit-scrollbar-track{background:transparent}
+.card::-webkit-scrollbar-thumb{background:var(--rose);border-radius:2px}
 
-  /* ===== DECORATIVE ARCH ===== */
-  .card-arch {
-    width: 100%;
-    height: 50px;
-    background: linear-gradient(135deg, #8b1a4a, #c2185b);
-    position: relative;
-    overflow: hidden;
-  }
-  .card-arch::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: -5%;
-    width: 110%;
-    height: 60px;
-    background: linear-gradient(145deg, #fff8f6 0%, #fef0f5 100%);
-    border-radius: 50% 50% 0 0;
-  }
+/* ═══ BANNER ═══ */
+.card-banner{
+  background:linear-gradient(135deg,#6b0f38 0%,#8b1a4a 20%,#c2185b 50%,#e91e8c 75%,#ad1457 100%);
+  padding:40px 30px 30px;text-align:center;
+  position:relative;overflow:hidden;border-radius:28px 28px 0 0;
+}
+.card-banner::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Ccircle cx='20' cy='20' r='1.5' fill='rgba(255,255,255,0.06)'/%3E%3C/g%3E%3C/svg%3E");
+}
+/* animated shimmer overlay */
+.card-banner::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.06) 50%,transparent 60%);
+  animation:bannerShimmer 4s ease-in-out infinite;
+}
+@keyframes bannerShimmer{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
 
-  /* ===== CARD BODY ===== */
-  .card-body {
-    padding: 28px 32px 36px;
-    position: relative;
-  }
+.banner-sparkles{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.banner-sparkle{
+  position:absolute;color:rgba(255,255,255,.65);
+  animation:sparkleFloat var(--sf) ease-in-out infinite var(--sfd);
+  font-size:var(--sfs);
+}
+@keyframes sparkleFloat{0%,100%{transform:translateY(0) scale(1);opacity:.35}50%{transform:translateY(-14px) scale(1.4);opacity:1}}
 
-  /* ===== DECORATIVE CORNERS ===== */
-  .corner-dec {
-    position: absolute;
-    font-size: 28px;
-    opacity: 0.25;
-    animation: cornerSpin 8s linear infinite;
-    pointer-events: none;
-  }
-  @keyframes cornerSpin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  .corner-tl { top: 12px; left: 14px; }
-  .corner-tr { top: 12px; right: 14px; animation-direction: reverse; }
-  .corner-bl { bottom: 12px; left: 14px; animation-direction: reverse; }
-  .corner-br { bottom: 12px; right: 14px; }
+.banner-crescent{
+  font-size:58px;display:block;margin-bottom:6px;
+  filter:drop-shadow(0 4px 16px rgba(255,215,0,.7)) drop-shadow(0 0 30px rgba(255,215,0,.3));
+  animation:bannerMoon 4s ease-in-out infinite;
+}
+@keyframes bannerMoon{0%,100%{transform:rotate(-6deg) scale(1)}50%{transform:rotate(6deg) scale(1.12)}}
 
-  /* ===== RECIPIENT LINE ===== */
-  .recipient-line {
-    text-align: center;
-    margin-bottom: 24px;
-    opacity: 0;
-    animation: fadeUp 0.6s 0.4s forwards;
-  }
-  .recipient-to {
-    font-family: 'Lato', sans-serif;
-    font-size: 11px;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: var(--mauve);
-    display: block;
-    margin-bottom: 4px;
-  }
-  .recipient-name {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: clamp(26px, 6vw, 38px);
-    background: linear-gradient(135deg, #c2185b, #e91e8c, #ad1457);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    filter: drop-shadow(0 2px 8px rgba(194,24,91,0.2));
-  }
+.banner-bismillah{
+  font-family:'Amiri',serif;font-size:clamp(15px,3vw,20px);
+  color:rgba(255,255,255,.8);letter-spacing:.15em;direction:rtl;
+  display:block;margin-bottom:8px;
+  text-shadow:0 0 15px rgba(232,184,109,.5);
+}
+.banner-title{
+  font-family:'Dancing Script',cursive;
+  font-size:clamp(34px,8vw,58px);color:#fff;
+  text-shadow:0 2px 25px rgba(255,215,0,.6),0 0 50px rgba(255,255,255,.3);
+  line-height:1.05;position:relative;z-index:1;
+  animation:titleShimmer 3s ease-in-out infinite;
+}
+@keyframes titleShimmer{
+  0%,100%{text-shadow:0 2px 25px rgba(255,215,0,.6),0 0 50px rgba(255,255,255,.3)}
+  50%{text-shadow:0 2px 35px rgba(255,215,0,1),0 0 80px rgba(255,255,255,.5),0 0 120px rgba(232,184,109,.4)}
+}
+.banner-arabic-title{
+  font-family:'Amiri',serif;font-size:clamp(18px,4vw,26px);
+  color:rgba(255,255,255,.85);direction:rtl;
+  text-shadow:0 2px 10px rgba(0,0,0,.3);
+  display:block;margin-top:4px;
+}
+.banner-subtitle{
+  font-family:'Lato',sans-serif;font-size:clamp(10px,2vw,13px);
+  color:rgba(255,255,255,.75);letter-spacing:5px;text-transform:uppercase;margin-top:8px;
+}
+.banner-divider{
+  display:flex;align-items:center;justify-content:center;
+  gap:12px;margin-top:18px;color:var(--gold);font-size:18px;
+}
+.bdl{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(232,184,109,.9),transparent);max-width:90px}
 
-  /* ===== LANTERNS ROW ===== */
-  .lanterns-row {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin: 20px 0;
-    opacity: 0;
-    animation: fadeUp 0.6s 0.5s forwards;
-  }
-  .lantern {
-    font-size: 28px;
-    animation: lanternSwing var(--ls) ease-in-out infinite var(--lsd);
-    transform-origin: top center;
-    filter: drop-shadow(0 4px 8px rgba(232,184,109,0.5));
-  }
-  @keyframes lanternSwing {
-    0%,100% { transform: rotate(-12deg); }
-    50% { transform: rotate(12deg); }
-  }
+/* ═══ ARCH ═══ */
+.card-arch{
+  width:100%;height:48px;
+  background:linear-gradient(135deg,#8b1a4a,#c2185b);
+  position:relative;overflow:hidden;
+}
+.card-arch::after{
+  content:'';position:absolute;bottom:0;left:-5%;width:110%;height:58px;
+  background:linear-gradient(145deg,#fff8f6 0%,#fef0f5 100%);
+  border-radius:50% 50% 0 0;
+}
 
-  /* ===== SEPARATOR ===== */
-  .sep {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin: 20px 0;
-    color: var(--rose);
-    opacity: 0;
-    animation: fadeUp 0.6s 0.55s forwards;
-  }
-  .sep-line {
-    flex: 1;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--rose), transparent);
-  }
-  .sep-icon { font-size: 18px; animation: sepPulse 2s ease-in-out infinite; }
-  @keyframes sepPulse {
-    0%,100% { transform: scale(1); }
-    50% { transform: scale(1.3); }
-  }
+/* ═══ CARD BODY ═══ */
+.card-body{padding:28px 34px 38px;position:relative}
 
-  /* ===== MESSAGE PARAGRAPHS ===== */
-  .msg-para {
-    font-family: 'Lato', sans-serif;
-    font-size: clamp(13px, 2.5vw, 15px);
-    line-height: 1.9;
-    color: #4a2030;
-    margin-bottom: 18px;
-    opacity: 0;
-    animation: fadeUp 0.6s forwards;
-    text-align: justify;
-    position: relative;
-    padding: 14px 18px;
-    background: rgba(252,228,236,0.4);
-    border-left: 3px solid var(--rose);
-    border-radius: 0 12px 12px 0;
-  }
-  .msg-para:nth-child(1) { animation-delay: 0.6s; }
-  .msg-para:nth-child(2) { animation-delay: 0.75s; }
-  .msg-para:nth-child(3) { animation-delay: 0.9s; }
-  .msg-para:nth-child(4) { animation-delay: 1.05s; }
-  .msg-para:nth-child(5) { animation-delay: 1.2s; }
-  .msg-para:nth-child(6) { animation-delay: 1.35s; }
+.corner-dec{
+  position:absolute;font-size:26px;opacity:.2;
+  animation:cornerSpin 10s linear infinite;pointer-events:none;
+}
+@keyframes cornerSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.corner-tl{top:12px;left:14px}
+.corner-tr{top:12px;right:14px;animation-direction:reverse}
+.corner-bl{bottom:12px;left:14px;animation-direction:reverse}
+.corner-br{bottom:12px;right:14px}
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+/* ═══ RECIPIENT ═══ */
+.recipient-line{
+  text-align:center;margin-bottom:22px;
+  opacity:0;animation:fadeUp .6s .4s forwards;
+}
+.recipient-to{
+  font-family:'Lato',sans-serif;font-size:11px;
+  letter-spacing:5px;text-transform:uppercase;color:var(--mauve);display:block;margin-bottom:4px;
+}
+.recipient-name{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(28px,7vw,42px);
+  background:linear-gradient(135deg,#c2185b,#e91e8c,#ad1457,#c2185b);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  background-size:200% 200%;
+  animation:nameGradient 3s ease-in-out infinite;
+  filter:drop-shadow(0 2px 8px rgba(194,24,91,.2));
+}
+@keyframes nameGradient{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
 
-  /* ===== PRAYER BOX ===== */
-  .prayer-box {
-    background: linear-gradient(135deg, rgba(194,24,91,0.08), rgba(201,160,220,0.12));
-    border: 1px solid rgba(244,160,176,0.5);
-    border-radius: 18px;
-    padding: 20px 22px;
-    margin: 22px 0;
-    text-align: center;
-    opacity: 0;
-    animation: fadeUp 0.6s 1.4s forwards;
-    position: relative;
-    overflow: hidden;
-  }
-  .prayer-box::before {
-    content: '🤲';
-    font-size: 36px;
-    display: block;
-    margin-bottom: 10px;
-    animation: prayFloat 3s ease-in-out infinite;
-  }
-  @keyframes prayFloat {
-    0%,100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
-  .prayer-box p {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: clamp(13px, 2.5vw, 15px);
-    color: #8b1a4a;
-    line-height: 1.8;
-  }
+/* ═══ LANTERNS ROW ═══ */
+.lanterns-row{
+  display:flex;justify-content:center;gap:14px;margin:18px 0;
+  opacity:0;animation:fadeUp .6s .5s forwards;
+}
+.lantern{
+  font-size:26px;animation:lanternSwing var(--ls) ease-in-out infinite var(--lsd);
+  transform-origin:top center;
+  filter:drop-shadow(0 4px 10px rgba(232,184,109,.55));
+}
+@keyframes lanternSwing{0%,100%{transform:rotate(-14deg)}50%{transform:rotate(14deg)}}
 
-  /* ===== SIGN OFF ===== */
-  .sign-off {
-    text-align: center;
-    margin-top: 28px;
-    opacity: 0;
-    animation: fadeUp 0.6s 1.55s forwards;
-  }
-  .sign-off-blessing {
-    font-family: 'Dancing Script', cursive;
-    font-size: clamp(20px, 5vw, 30px);
-    color: var(--deep-rose);
-    display: block;
-    margin-bottom: 6px;
-  }
-  .sign-off-name {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: clamp(16px, 3vw, 20px);
-    color: var(--mauve);
-    display: block;
-    margin-bottom: 4px;
-  }
-  .sign-off-from {
-    font-family: 'Lato', sans-serif;
-    font-size: 12px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: var(--soft-purple);
-  }
+/* ═══ SEPARATOR ═══ */
+.sep{
+  display:flex;align-items:center;justify-content:center;
+  gap:10px;margin:18px 0;color:var(--rose);
+  opacity:0;animation:fadeUp .6s .55s forwards;
+}
+.sep-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--rose),transparent)}
+.sep-icon{font-size:18px;animation:sepPulse 2.2s ease-in-out infinite}
+@keyframes sepPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.35)}}
 
-  /* ===== EMOJI TRAIL ===== */
-  .emoji-trail {
-    position: fixed;
-    pointer-events: none;
-    z-index: 999;
-    font-size: 20px;
-    animation: trailFade 1s ease-out forwards;
-    transform: translate(-50%, -50%);
-  }
-  @keyframes trailFade {
-    0% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-    100% { opacity: 0; transform: translate(-50%, calc(-50% - 80px)) scale(0.3); }
-  }
+/* ═══ MESSAGE PARAS ═══ */
+.msg-para{
+  font-family:'Lato',sans-serif;font-size:clamp(13px,2.5vw,15px);
+  line-height:1.95;color:#4a2030;margin-bottom:16px;
+  opacity:0;animation:fadeUp .6s forwards;
+  text-align:justify;position:relative;
+  padding:14px 18px;
+  background:rgba(252,228,236,.38);
+  border-left:3px solid var(--rose);
+  border-radius:0 12px 12px 0;
+  transition:background .3s,border-color .3s;
+}
+.msg-para:hover{background:rgba(252,228,236,.6);border-color:var(--deep-rose)}
+.msg-para:nth-child(1){animation-delay:.6s}
+.msg-para:nth-child(2){animation-delay:.75s}
+.msg-para:nth-child(3){animation-delay:.9s}
+.msg-para:nth-child(4){animation-delay:1.05s}
+.msg-para:nth-child(5){animation-delay:1.2s}
+.msg-para:nth-child(6){animation-delay:1.35s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
 
-  /* ===== CARD FOOTER ===== */
-  .card-footer {
-    background: linear-gradient(135deg, #8b1a4a, #c2185b);
-    padding: 16px;
-    text-align: center;
-    border-radius: 0 0 28px 28px;
-  }
-  .footer-emojis {
-    font-size: 22px;
-    letter-spacing: 6px;
-    animation: footerShimmer 2s ease-in-out infinite;
-  }
-  @keyframes footerShimmer {
-    0%,100% { filter: brightness(1); }
-    50% { filter: brightness(1.4) drop-shadow(0 0 8px rgba(255,215,0,0.6)); }
-  }
-  .footer-text {
-    font-family: 'Lato', sans-serif;
-    font-size: 11px;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.7);
-    margin-top: 6px;
-  }
+/* ═══ DUA SECTION HEADING ═══ */
+.dua-section-title{
+  text-align:center;margin:28px 0 16px;
+  opacity:0;animation:fadeUp .6s 1.4s forwards;
+}
+.dua-section-title span{
+  font-family:'Dancing Script',cursive;font-size:clamp(18px,4vw,26px);
+  color:var(--deep-rose);letter-spacing:.08em;
+  position:relative;
+}
+.dua-section-title span::before,
+.dua-section-title span::after{
+  content:'✦';color:var(--gold);font-size:.7em;
+  margin:0 10px;animation:starSpin 3s linear infinite;
+  display:inline-block;
+}
+@keyframes starSpin{to{transform:rotate(360deg)}}
 
-  /* ===== CONFETTI ===== */
-  .confetti-piece {
-    position: fixed;
-    pointer-events: none;
-    z-index: 25;
-    border-radius: 2px;
-    animation: confettiFall var(--cf) ease-in var(--cfd) forwards;
-    opacity: 0;
-  }
-  @keyframes confettiFall {
-    0% { transform: translateY(-20px) rotate(0deg) translateX(0); opacity: 1; }
-    100% { transform: translateY(110vh) rotate(var(--cr)) translateX(var(--cx)); opacity: 0; }
-  }
+/* ═══ DUA BOXES ═══ */
+.dua-box{
+  width:100%;border-radius:18px;padding:20px 22px;margin:12px 0;
+  background:linear-gradient(135deg,rgba(194,24,91,.07),rgba(201,160,220,.1),rgba(194,24,91,.05));
+  border:1px solid rgba(244,160,176,.45);
+  position:relative;overflow:hidden;
+  opacity:0;animation:fadeUp .6s forwards;
+  transition:transform .25s,box-shadow .25s;
+}
+.dua-box:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(194,24,91,.15)}
+/* glow border on hover */
+.dua-box::before{
+  content:'';position:absolute;inset:0;border-radius:18px;
+  background:linear-gradient(135deg,rgba(232,184,109,.15),transparent,rgba(244,160,176,.1));
+  opacity:0;transition:opacity .3s;
+}
+.dua-box:hover::before{opacity:1}
+/* top gem */
+.dua-box::after{
+  content:'✦';position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+  font-size:14px;color:var(--gold);
+  background:linear-gradient(145deg,#fff8f6,#fef0f5);padding:0 8px;
+}
 
-  /* ===== MOBILE ===== */
-  @media (max-width: 480px) {
-    .card-body { padding: 20px 18px 28px; }
-    .card-banner { padding: 28px 18px 20px; }
-    .msg-para { padding: 10px 12px; }
-  }
+.dua-label{
+  font-family:'Lato',sans-serif;font-size:11px;
+  color:var(--mauve);text-transform:uppercase;letter-spacing:.18em;
+  display:block;margin-bottom:10px;text-align:center;
+}
+.dua-arabic{
+  font-family:'Amiri',serif;font-size:clamp(17px,4vw,22px);
+  color:#8b1a4a;letter-spacing:.06em;
+  display:block;text-align:center;
+  line-height:1.7;direction:rtl;
+  text-shadow:0 1px 6px rgba(194,24,91,.15);
+}
+.dua-transliteration{
+  font-family:'Lato',sans-serif;font-size:clamp(11px,2.5vw,13px);
+  color:var(--mauve);font-style:italic;
+  display:block;text-align:center;margin-top:7px;
+  letter-spacing:.04em;
+}
+.dua-meaning{
+  font-family:'Lato',sans-serif;font-size:clamp(11px,2.5vw,12.5px);
+  color:#b090a0;display:block;text-align:center;margin-top:4px;
+  line-height:1.6;
+}
+/* delay utilities */
+.dua-box.d1{animation-delay:1.5s}
+.dua-box.d2{animation-delay:1.65s}
+.dua-box.d3{animation-delay:1.8s}
+.dua-box.d4{animation-delay:1.95s}
+.dua-box.d5{animation-delay:2.1s}
+
+/* dua gold variant */
+.dua-box.gold-var{
+  background:linear-gradient(135deg,rgba(232,184,109,.1),rgba(255,215,0,.08),rgba(232,184,109,.06));
+  border-color:rgba(232,184,109,.4);
+}
+.dua-box.gold-var::after{color:var(--rose)}
+.dua-box.gold-var .dua-arabic{color:#8b6500}
+
+/* ═══ PRAYER BOX (main) ═══ */
+.prayer-box{
+  background:linear-gradient(135deg,rgba(194,24,91,.09),rgba(201,160,220,.13));
+  border:1px solid rgba(244,160,176,.5);
+  border-radius:20px;padding:22px 24px;margin:22px 0;
+  text-align:center;
+  opacity:0;animation:fadeUp .6s 2.3s forwards;
+  position:relative;overflow:hidden;
+}
+.prayer-box::before{
+  content:'🤲';font-size:38px;display:block;margin-bottom:12px;
+  animation:prayFloat 3.5s ease-in-out infinite;
+}
+@keyframes prayFloat{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-10px) scale(1.08)}}
+.prayer-box p{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(13px,2.5vw,15px);color:#8b1a4a;line-height:1.85;
+}
+/* shimmer behind prayer box */
+.prayer-box::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 45%,rgba(255,255,255,.06) 55%,transparent 65%);
+  animation:prayShimmer 5s ease-in-out infinite;
+}
+@keyframes prayShimmer{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+
+/* ═══ SIGN OFF ═══ */
+.sign-off{
+  text-align:center;margin-top:30px;
+  opacity:0;animation:fadeUp .6s 2.5s forwards;
+}
+.sign-off-blessing{
+  font-family:'Dancing Script',cursive;font-size:clamp(20px,5vw,32px);
+  color:var(--deep-rose);display:block;margin-bottom:8px;
+  animation:signGlow 3s ease-in-out infinite;
+}
+@keyframes signGlow{
+  0%,100%{text-shadow:0 0 10px rgba(194,24,91,.2)}
+  50%{text-shadow:0 0 25px rgba(194,24,91,.5),0 0 50px rgba(194,24,91,.2)}
+}
+.sign-off-name{
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(17px,3.5vw,22px);color:var(--mauve);display:block;margin-bottom:4px;
+}
+.sign-off-from{
+  font-family:'Lato',sans-serif;font-size:11.5px;
+  letter-spacing:4px;text-transform:uppercase;color:var(--soft-purple);
+}
+
+/* ═══ CARD FOOTER ═══ */
+.card-footer{
+  background:linear-gradient(135deg,#6b0f38,#8b1a4a,#c2185b);
+  padding:18px;text-align:center;border-radius:0 0 28px 28px;
+  position:relative;overflow:hidden;
+}
+.card-footer::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.05) 50%,transparent 60%);
+  animation:footerShimmer 3s ease-in-out infinite;
+}
+@keyframes footerShimmer{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
+.footer-emojis{font-size:22px;letter-spacing:7px;animation:footerGlow 2.5s ease-in-out infinite}
+@keyframes footerGlow{
+  0%,100%{filter:brightness(1)}
+  50%{filter:brightness(1.5) drop-shadow(0 0 10px rgba(255,215,0,.7))}
+}
+.footer-text{
+  font-family:'Lato',sans-serif;font-size:11px;letter-spacing:4px;
+  text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:7px;
+}
+.footer-arabic{
+  font-family:'Amiri',serif;font-size:15px;
+  color:rgba(255,255,255,.6);direction:rtl;
+  display:block;margin-top:4px;
+}
+
+/* ═══ EMOJI TRAIL ═══ */
+.emoji-trail{
+  position:fixed;pointer-events:none;z-index:999;font-size:22px;
+  animation:trailFade 1.1s ease-out forwards;
+  transform:translate(-50%,-50%);
+}
+@keyframes trailFade{
+  0%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  100%{opacity:0;transform:translate(-50%,calc(-50% - 90px)) scale(.2)}
+}
+
+/* ═══ CONFETTI ═══ */
+.confetti-piece{
+  position:fixed;pointer-events:none;z-index:25;border-radius:2px;
+  animation:confettiFall var(--cf) ease-in var(--cfd) forwards;opacity:0;
+}
+@keyframes confettiFall{
+  0%{transform:translateY(-20px) rotate(0deg) translateX(0);opacity:1}
+  100%{transform:translateY(110vh) rotate(var(--cr)) translateX(var(--cx));opacity:0}
+}
+
+/* ═══ GOLDEN GLOW ORBS (card body bg) ═══ */
+.glow-orb{
+  position:absolute;border-radius:50%;pointer-events:none;
+  animation:orbFloat var(--od) ease-in-out infinite alternate var(--oddel);
+  opacity:.07;z-index:0;
+}
+@keyframes orbFloat{0%{transform:translate(0,0)}100%{transform:translate(var(--ox),var(--oy))}}
+
+@media(max-width:480px){
+  .card-body{padding:20px 18px 28px}
+  .card-banner{padding:30px 18px 22px}
+  .msg-para{padding:10px 12px}
+  .dua-box{padding:16px 14px}
+}
 </style>
 </head>
 <body>
 
-<!-- Stars -->
 <div class="stars-container" id="stars"></div>
-
-<!-- Aurora -->
 <div class="aurora" id="aurora"></div>
-
-<!-- Petals -->
 <div id="petals"></div>
-
-<!-- Burst ring -->
+<div id="bgLanterns"></div>
 <div class="burst-ring" id="burst"></div>
 
-<!-- HINT SCREEN -->
+<!-- HINT -->
 <div id="hint">
   <div class="hint-moon">🌙</div>
+  <div class="hint-arabic">عِيدٌ مُبَارَكٌ</div>
   <div class="hint-text">A Special Eid Surprise<br>Awaits You, Ushna ✨</div>
-  <div class="hint-tap-ring"></div>
+  <div class="hint-ring"></div>
   <div class="hint-sub">Tap anywhere to open</div>
 </div>
 
@@ -583,21 +532,27 @@
     <!-- Banner -->
     <div class="card-banner">
       <div class="banner-sparkles" id="bannerSparkles"></div>
-      <span class="banner-moon">🌙</span>
+      <span class="banner-crescent">🌙</span>
+      <span class="banner-bismillah">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</span>
       <div class="banner-title">Eid Mubarak</div>
-      <div class="banner-subtitle">✦ &nbsp; عید مبارک &nbsp; ✦</div>
+      <span class="banner-arabic-title">عِيدُ الفِطْرِ مُبَارَك</span>
       <div class="banner-divider">
-        <div class="banner-divider-line"></div>
-        <span>🌸 🌺 🌸</span>
-        <div class="banner-divider-line"></div>
+        <div class="bdl"></div>
+        <span>🌸 🌙 🌺</span>
+        <div class="bdl"></div>
       </div>
     </div>
 
-    <!-- Arch transition -->
     <div class="card-arch"></div>
 
     <!-- Body -->
     <div class="card-body">
+
+      <!-- Glow orbs -->
+      <div class="glow-orb" style="width:200px;height:200px;background:#c2185b;top:-40px;right:-60px;--od:8s;--oddel:0s;--ox:30px;--oy:40px"></div>
+      <div class="glow-orb" style="width:150px;height:150px;background:#c9a0dc;bottom:100px;left:-40px;--od:10s;--oddel:2s;--ox:-20px;--oy:-30px"></div>
+      <div class="glow-orb" style="width:120px;height:120px;background:#e8b86d;bottom:0;right:0;--od:7s;--oddel:1s;--ox:15px;--oy:-20px"></div>
+
       <div class="corner-dec corner-tl">✿</div>
       <div class="corner-dec corner-tr">❈</div>
       <div class="corner-dec corner-bl">❈</div>
@@ -612,16 +567,13 @@
       <!-- Lanterns -->
       <div class="lanterns-row">
         <span class="lantern" style="--ls:2.2s;--lsd:0s">🌸</span>
-        <span class="lantern" style="--ls:2.8s;--lsd:0.3s">🏮</span>
-        <span class="lantern" style="--ls:2s;--lsd:0.6s">🌙</span>
-        <span class="lantern" style="--ls:2.5s;--lsd:0.2s">🏮</span>
-        <span class="lantern" style="--ls:2.3s;--lsd:0.5s">🌸</span>
+        <span class="lantern" style="--ls:2s;--lsd:.6s">🌙</span>
+        <span class="lantern" style="--ls:2.6s;--lsd:.15s">✨</span>
+        <span class="lantern" style="--ls:2.1s;--lsd:.55s">🌸</span>
       </div>
 
       <div class="sep">
-        <div class="sep-line"></div>
-        <span class="sep-icon">🌺</span>
-        <div class="sep-line"></div>
+        <div class="sep-line"></div><span class="sep-icon">🌺</span><div class="sep-line"></div>
       </div>
 
       <!-- Message -->
@@ -634,169 +586,185 @@
         <p class="msg-para">May this Eid bring you joy, love, and countless blessings. Eid Mubarak, my precious bestie Ushna. You truly mean the world to me. 🤍</p>
       </div>
 
+      <div class="sep" style="animation-delay:.7s">
+        <div class="sep-line"></div><span class="sep-icon">💌</span><div class="sep-line"></div>
+      </div>
+
+      <!-- DUA SECTION -->
+      <div class="dua-section-title"><span>Sacred Duas For You 🤲</span></div>
+
+      <!-- Dua 1 -->
+      <div class="dua-box d1">
+        <span class="dua-label">Opening Blessing</span>
+        <span class="dua-arabic">تَقَبَّلَ اللّٰهُ مِنَّا وَمِنْكُمْ</span>
+        <span class="dua-transliteration">Taqabbal Allahu minna wa minkum</span>
+        <span class="dua-meaning">May Allah accept (good deeds) from us and from you 🌙</span>
+      </div>
+
+      <!-- Dua 2 -->
+      <div class="dua-box d2">
+        <span class="dua-label">Dua for Happiness & Well-being</span>
+        <span class="dua-arabic">اَللّٰهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالآخِرَةِ</span>
+        <span class="dua-transliteration">Allahumma inni as'alukal-afwa wal-afiyata fid-dunya wal-akhirah</span>
+        <span class="dua-meaning">O Allah, I ask You for pardon and well-being in this world and in the Hereafter 💕</span>
+      </div>
+
+      <!-- Dua 3 -->
+      <div class="dua-box gold-var d3">
+        <span class="dua-label">Dua for This World & Hereafter</span>
+        <span class="dua-arabic">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ</span>
+        <span class="dua-transliteration">Rabbana atina fid-dunya hasanatan wa fil-akhirati hasanatan wa qina 'adhaban-nar</span>
+        <span class="dua-meaning">Our Lord, give us good in this world and good in the Hereafter, and protect us from the punishment of the Fire ✨</span>
+      </div>
+
+      <!-- Dua 4 -->
+      <div class="dua-box d4">
+        <span class="dua-label">Dua for a Blessed Life</span>
+        <span class="dua-arabic">اَللّٰهُمَّ بَارِكْ لَنَا فِيمَا رَزَقْتَنَا وَقِنَا عَذَابَ النَّارِ</span>
+        <span class="dua-transliteration">Allahumma barik lana fima razaqtana wa qina 'adhaban-nar</span>
+        <span class="dua-meaning">O Allah, bless us in what You have provided for us and protect us from the punishment of the Fire 🌸</span>
+      </div>
+
+      <!-- Dua 5 -->
+      <div class="dua-box gold-var d5">
+        <span class="dua-label">Eid Mubarak Greeting Dua</span>
+        <span class="dua-arabic">كُلَّ عَامٍ وَأَنْتِ بِخَيْرٍ</span>
+        <span class="dua-transliteration">Kulla 'amin wa anti bikhayr</span>
+        <span class="dua-meaning">May you be well every year Eid Mubarak 🌙</span>
+      </div>
+
       <!-- Prayer box -->
       <div class="prayer-box">
         <p>"May Allah accept our fasts, our prayers, and our good deeds. May this Eid be the most beautiful one yet for you, Ushna full of love, laughter, and all things lovely." 🌙✨</p>
       </div>
 
-      <div class="sep">
-        <div class="sep-line"></div>
-        <span class="sep-icon">💌</span>
-        <div class="sep-line"></div>
+      <div class="sep" style="animation-delay:.8s">
+        <div class="sep-line"></div><span class="sep-icon">🌙</span><div class="sep-line"></div>
       </div>
 
       <!-- Sign off -->
       <div class="sign-off">
         <span class="sign-off-blessing">With lots of prayers and love 🤍</span>
-        <span class="sign-off-name">Your Weirdo ✦ </span>
+        <span class="sign-off-name">Your Weirdo ✦</span>
       </div>
     </div>
 
     <!-- Footer -->
     <div class="card-footer">
-      <div class="footer-emojis">🌙 🌸 💕 🌺</div>
-      <div class="footer-text">Eid ul Fitr 2026</div>
+      <div class="footer-emojis">🌙 🌸 💕 🌺 ✨</div>
+      <span class="footer-arabic">عِيدُكِ مُبَارَك يَا أُشنَا 🌸</span>
+      <div class="footer-text">Eid ul Fitr · 2026</div>
     </div>
 
   </div>
 </div>
 
 <script>
-  // ===== STARS =====
-  const starsEl = document.getElementById('stars');
-  for (let i = 0; i < 180; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    const sz = Math.random() * 2.5 + 0.5;
-    s.style.cssText = `
-      width:${sz}px; height:${sz}px;
-      left:${Math.random()*100}%;
-      top:${Math.random()*100}%;
-      --dur:${2+Math.random()*4}s;
-      --delay:${Math.random()*4}s;
-    `;
-    starsEl.appendChild(s);
-  }
+// ═══ STARS ═══
+const starsEl=document.getElementById('stars');
+for(let i=0;i<200;i++){
+  const s=document.createElement('div');s.className='star';
+  const sz=Math.random()*2.8+.4;
+  s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${2+Math.random()*4}s;--delay:${Math.random()*5}s`;
+  starsEl.appendChild(s);
+}
 
-  // ===== AURORA =====
-  const auroraEl = document.getElementById('aurora');
-  const auroraColors = ['#c2185b','#ad1457','#e91e8c','#9c27b0','#673ab7','#f48fb1'];
-  for (let i = 0; i < 5; i++) {
-    const b = document.createElement('div');
-    b.className = 'aurora-blob';
-    const size = 300 + Math.random() * 400;
-    b.style.cssText = `
-      width:${size}px; height:${size}px;
-      background:${auroraColors[i % auroraColors.length]};
-      left:${Math.random()*100}%; top:${Math.random()*100}%;
-      --am:${8+Math.random()*8}s;
-      --am-d:${Math.random()*4}s;
-      --mx:${(Math.random()-0.5)*200}px;
-      --my:${(Math.random()-0.5)*200}px;
-    `;
-    auroraEl.appendChild(b);
-  }
+// shooting stars
+for(let i=0;i<5;i++){
+  const sh=document.createElement('div');sh.className='shoot';
+  const len=80+Math.random()*140;
+  const ang=-25-Math.random()*20;
+  sh.style.cssText=`width:${len}px;left:${Math.random()*80}%;top:${Math.random()*50}%;--sd:${8+Math.random()*10}s;--sdel:${Math.random()*8}s;--ang:${ang}deg;--sx:${-300-Math.random()*200}px;--sy:${100+Math.random()*150}px`;
+  starsEl.appendChild(sh);
+}
 
-  // ===== PETALS =====
-  const petalsEl = document.getElementById('petals');
-  const petalEmojis = ['🌸','🌺','🌼','🌹','💮','🌷'];
-  for (let i = 0; i < 22; i++) {
-    const p = document.createElement('div');
-    p.className = 'petal';
-    const sway = (Math.random()-0.5)*200;
-    p.style.cssText = `
-      left:${Math.random()*100}%;
-      --sz:${14+Math.random()*14}px;
-      --fd:${6+Math.random()*8}s;
-      --fd-delay:${-Math.random()*10}s;
-      --sway:${sway}px;
-    `;
-    p.textContent = petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
-    petalsEl.appendChild(p);
-  }
+// ═══ AURORA ═══
+const auroraEl=document.getElementById('aurora');
+const aC=['#c2185b','#ad1457','#e91e8c','#9c27b0','#673ab7','#f48fb1','#880e4f'];
+for(let i=0;i<6;i++){
+  const b=document.createElement('div');b.className='aurora-blob';
+  const sz=280+Math.random()*420;
+  b.style.cssText=`width:${sz}px;height:${sz}px;background:${aC[i%aC.length]};left:${Math.random()*100}%;top:${Math.random()*100}%;--am:${8+Math.random()*9}s;--am-d:${Math.random()*4}s;--mx:${(Math.random()-.5)*220}px;--my:${(Math.random()-.5)*220}px`;
+  auroraEl.appendChild(b);
+}
 
-  // ===== BANNER SPARKLES =====
-  const bannerSparkles = document.getElementById('bannerSparkles');
-  for (let i = 0; i < 18; i++) {
-    const sp = document.createElement('div');
-    sp.className = 'banner-sparkle';
-    sp.textContent = ['✦','✧','⋆','·','*'][Math.floor(Math.random()*5)];
-    sp.style.cssText = `
-      left:${Math.random()*100}%; top:${Math.random()*100}%;
-      --sf:${1.5+Math.random()*2.5}s;
-      --sfd:${Math.random()*2}s;
-      --sfs:${8+Math.random()*10}px;
-    `;
-    bannerSparkles.appendChild(sp);
-  }
+// ═══ PETALS ═══
+const petalsEl=document.getElementById('petals');
+const pEmoji=['🌸','🌺','🌼','🌹','💮','🌷','✿'];
+for(let i=0;i<28;i++){
+  const p=document.createElement('div');p.className='petal';
+  const sw=(Math.random()-.5)*220;
+  p.style.cssText=`left:${Math.random()*100}%;--sz:${13+Math.random()*14}px;--fd:${6+Math.random()*9}s;--fd-delay:${-Math.random()*12}s;--sway:${sw}px`;
+  p.textContent=pEmoji[Math.floor(Math.random()*pEmoji.length)];
+  petalsEl.appendChild(p);
+}
 
-  // ===== OPEN CARD =====
-  let opened = false;
-  const hint = document.getElementById('hint');
-  const cardWrapper = document.getElementById('card-wrapper');
-  const card = document.getElementById('card');
-  const burst = document.getElementById('burst');
+// ═══ BG LANTERNS ═══
+const bgLanEl=document.getElementById('bgLanterns');
+['🎀','🌸','💫','🎀','🌸'].forEach((em,i)=>{
+  const l=document.createElement('div');l.className='bg-lantern';
+  l.textContent=em;
+  l.style.cssText=`left:${8+i*20}%;top:${4+i*3}%;--lsz:${20+i*4}px;--ldr:${5+i}s;--ldel:${i*.8}s`;
+  bgLanEl.appendChild(l);
+});
 
-  const emojiPool = ['🌸','✨','💕','🌺','🌙','💫','🌷','🎀','🌹'];
+// ═══ BANNER SPARKLES ═══
+const bSp=document.getElementById('bannerSparkles');
+for(let i=0;i<24;i++){
+  const sp=document.createElement('div');sp.className='banner-sparkle';
+  sp.textContent=['✦','✧','⋆','·','*','✸'][Math.floor(Math.random()*6)];
+  sp.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;--sf:${1.5+Math.random()*2.5}s;--sfd:${Math.random()*2}s;--sfs:${8+Math.random()*12}px`;
+  bSp.appendChild(sp);
+}
 
-  document.body.addEventListener('click', (e) => {
-    if (!opened) {
-      opened = true;
-      hint.classList.add('hidden');
+// ═══ OPEN ═══
+let opened=false;
+const hint=document.getElementById('hint');
+const cardWrapper=document.getElementById('card-wrapper');
+const card=document.getElementById('card');
+const burst=document.getElementById('burst');
+const emojiPool=['🌸','✨','💕','🌺','🌙','💫','🌷','🎀','🌹','🤍','✦'];
 
-      // Burst ring from click pos
-      burst.style.left = e.clientX + 'px';
-      burst.style.top = e.clientY + 'px';
-      burst.style.width = '60px';
-      burst.style.height = '60px';
+document.body.addEventListener('click',(e)=>{
+  if(!opened){
+    opened=true;
+    hint.classList.add('hidden');
+    burst.style.left=e.clientX+'px';burst.style.top=e.clientY+'px';
+    burst.style.width='70px';burst.style.height='70px';
+    burst.classList.add('active');
+    setTimeout(()=>burst.classList.remove('active'),900);
+    cardWrapper.classList.add('visible');
+    setTimeout(()=>card.classList.add('open'),80);
+    launchConfetti(e.clientX,e.clientY);
+    // second burst
+    setTimeout(()=>{
+      burst.style.left=(e.clientX+40)+'px';burst.style.top=(e.clientY-40)+'px';
       burst.classList.add('active');
-      setTimeout(() => burst.classList.remove('active'), 800);
-
-      // Show card
-      cardWrapper.classList.add('visible');
-      setTimeout(() => card.classList.add('open'), 80);
-
-      // Confetti burst
-      launchConfetti(e.clientX, e.clientY);
-    } else {
-      // Emoji trail on subsequent clicks
-      spawnEmoji(e.clientX, e.clientY);
-    }
-  });
-
-  function launchConfetti(cx, cy) {
-    const colors = ['#f4a0b0','#e8b86d','#c9a0dc','#f06292','#fff59d','#a5d6a7','#ffffff'];
-    for (let i = 0; i < 60; i++) {
-      const c = document.createElement('div');
-      c.className = 'confetti-piece';
-      const size = 6 + Math.random() * 8;
-      const rot = `${Math.random()*720 - 360}deg`;
-      const tx = `${(Math.random()-0.5)*500}px`;
-      c.style.cssText = `
-        width:${size}px; height:${size * (Math.random() > 0.5 ? 1 : 2.5)}px;
-        background:${colors[Math.floor(Math.random()*colors.length)]};
-        left:${cx + (Math.random()-0.5)*60}px;
-        top:${cy}px;
-        --cf:${1.5+Math.random()*2}s;
-        --cfd:${Math.random()*0.5}s;
-        --cr:${rot};
-        --cx:${tx};
-        border-radius:${Math.random()>0.5 ? '50%' : '2px'};
-      `;
-      document.body.appendChild(c);
-      setTimeout(() => c.remove(), 3500);
-    }
+      setTimeout(()=>burst.classList.remove('active'),900);
+    },300);
+  } else {
+    spawnEmoji(e.clientX,e.clientY);
   }
+});
 
-  function spawnEmoji(x, y) {
-    const e = document.createElement('div');
-    e.className = 'emoji-trail';
-    e.textContent = emojiPool[Math.floor(Math.random()*emojiPool.length)];
-    e.style.left = x + 'px';
-    e.style.top = y + 'px';
-    document.body.appendChild(e);
-    setTimeout(() => e.remove(), 1000);
+function launchConfetti(cx,cy){
+  const colors=['#f4a0b0','#e8b86d','#c9a0dc','#f06292','#fff59d','#a5d6a7','#ffffff','#ffd700','#ffb3c6'];
+  for(let i=0;i<80;i++){
+    const c=document.createElement('div');c.className='confetti-piece';
+    const sz=5+Math.random()*9;
+    c.style.cssText=`width:${sz}px;height:${sz*(Math.random()>.5?1:2.8)}px;background:${colors[Math.floor(Math.random()*colors.length)]};left:${cx+(Math.random()-.5)*70}px;top:${cy}px;--cf:${1.6+Math.random()*2.2}s;--cfd:${Math.random()*.6}s;--cr:${Math.random()*760-380}deg;--cx:${(Math.random()-.5)*560}px;border-radius:${Math.random()>.5?'50%':'2px'}`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),3800);
   }
+}
+
+function spawnEmoji(x,y){
+  const e=document.createElement('div');e.className='emoji-trail';
+  e.textContent=emojiPool[Math.floor(Math.random()*emojiPool.length)];
+  e.style.left=x+'px';e.style.top=y+'px';
+  document.body.appendChild(e);
+  setTimeout(()=>e.remove(),1100);
+}
 </script>
 </body>
 </html>
